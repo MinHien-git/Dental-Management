@@ -1,17 +1,31 @@
 const express = require("express");
+const sql = require("mssql");
 const app = express();
-const PORT = 5000 | process.env.PORT;
-const db = require("./data/database");
-const { pool } = require("mssql");
 
+/*-------------------add details of sqlConfig-----------------*/
+
+const config = {
+  user: "sa",
+  password: "123456",
+  server: "localhost",
+  database: "QLDT_1",
+  port: 1433,
+  options: {
+    trustServerCertificate: true,
+  },
+};
+
+/******************************************************************/
 app.get("/", async (req, res) => {
-  let gv = await db.conn;
-  let query = "SELECT * FROM GIAOVIEN";
-  return await pool.request().query(query, function (err, data) {
-    console.log("err ", data);
-    res.send({ result: data.recordset });
-  });
+  try {
+    await sql.connect(config);
+    res.send("DB Connected");
+  } catch (err) {
+    res.send(err);
+  }
 });
-app.listen(PORT, () => {
-  console.log("listen to ", PORT);
+
+const port = process.env.PORT || 5000;
+app.listen(port, () => {
+  console.log(`service is running on:: [${port}]`);
 });
