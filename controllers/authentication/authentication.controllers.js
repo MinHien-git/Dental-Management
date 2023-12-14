@@ -1,3 +1,16 @@
+const sql = require("mssql");
+
+const config = {
+  user: "sa",
+  password: "123456",
+  server: "localhost",
+  database: "QLDT_1",
+  port: 1433,
+  options: {
+    trustServerCertificate: true,
+  },
+};
+
 const post_login = async (req, res) => {
   try {
     await sql.connect(config);
@@ -5,7 +18,7 @@ const post_login = async (req, res) => {
     request.input("@ten", "Luong Minh Hien");
     request.input("@mk", "NK123456");
     request.output("@kq", sql.NVarChar);
-    const result = await request.execute("PROC_DangNhap", (err, result) => {
+    const result = request.execute("PROC_DangNhap", (err, result) => {
       console.log(result.output);
     });
     res.send("DB Connected");
@@ -21,7 +34,7 @@ const post_register = async (req, res) => {
     request.input("@ten", "Luong Minh Hien");
     request.input("@mk", "NK123456");
     request.output("@kq", sql.NVarChar);
-    const result = await request.execute("PROC_DangNhap", (err, result) => {
+    const result = request.execute("PROC_DangNhap", (err, result) => {
       console.log(result.output);
     });
     res.send("DB Connected");
