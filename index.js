@@ -130,6 +130,151 @@ app.post("/ThemKeHoachDieuTriBenhNhan  ", async (req, res) => {
   }
 });
 
+app.post("/ThemChongChiDinh/:MaBN/:MaThuoc ", async (req, res) => {
+  let { MaBN, MaThuoc } = res.params;
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+    request.input("MaBN", MaBN);
+    request.input("MaThuoc", MaThuoc);
+    const result = request
+      .execute("PROC_ThemChongChiDinh")
+      .then(function (err, recordsets, returnValue, affected) {
+        console.dir(recordsets);
+        console.dir(err);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+    console.log(result);
+    res.send(result);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+app.post("/SuaTinhTrangSucKhoeCuaBenhNhan/:MaBN ", async (req, res) => {
+  let { MaBN } = res.params;
+  let { TongQuan } = res.body;
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+    request.input("MaBN", MaBN);
+    request.input("TongQuan", TongQuan);
+    const result = request
+      .execute("PROC_SuaTinhTrangSucKhoeCuaBenhNhan")
+      .then(function (err, recordsets, returnValue, affected) {
+        console.dir(recordsets);
+        console.dir(err);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+    console.log(result);
+    res.send(result);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+app.post("/SuaChongChiDinh/:MaBN ", async (req, res) => {
+  let { MaBN } = res.params;
+  let { MaThuocCu, MaThuocMoi } = res.body;
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+    request.input("MaBN", MaBN);
+    request.input("MaThuocCu", MaThuocCu);
+    request.input("MaThuocMoi", MaThuocMoi);
+    const result = request
+      .execute("PROC_SuaChongChiDinh")
+      .then(function (err, recordsets, returnValue, affected) {
+        console.dir(recordsets);
+        console.dir(err);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+    console.log(result);
+    res.send(result);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+app.post("/XoaChongChiDinh/:MaBN/:MaThuoc ", async (req, res) => {
+  let { MaBN, MaThuoc } = res.params;
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+    request.input("MaBN", MaBN);
+    request.input("MaThuoc", MaThuoc);
+    const result = request
+      .execute("PROC_XoaChongChiDinh")
+      .then(function (err, recordsets, returnValue, affected) {
+        console.dir(recordsets);
+        console.dir(err);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+    console.log(result);
+    res.send(result);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+app.post("/XemKeHoachDieuTriBenhNhan/:MaBN ", async (req, res) => {
+  let { MaBN } = res.params;
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+    request.input("MaBN", MaBN);
+    const result = request
+      .execute("PROC_XemKeHoachDieuTriBenhNhan")
+      .then(function (err, recordsets, returnValue, affected) {
+        console.dir(recordsets);
+        console.dir(err);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+    console.log(result);
+    res.send(result);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+app.post("/ThemKeHoachDieuTriBenhNhan  ", async (req, res) => {
+  let { MoTa, NgayDieuTri, TrangThai, MaBN, KhamChinh, TroKham } = res.body;
+
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+    request.input("MoTa", MoTa);
+    request.input("NgayDieuTri", NgayDieuTri);
+    request.input("TrangThai", TrangThai);
+    request.input("MaBN", MaBN);
+    request.input("KhamChinh", KhamChinh);
+    request.input("TroKham", TroKham);
+    const result = request
+      .execute("PROC_ThemKeHoachDieuTriBenhNhan")
+      .then(function (err, recordsets, returnValue, affected) {
+        console.dir(recordsets);
+        console.dir(err);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+    console.log(result);
+    res.send(result);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
 app.post("/CapNhatKeHoachDieuTriBenhNhan  ", async (req, res) => {
   let { MaKHDT, MoTa, NgayDieuTri, TrangThai, MaBN, KhamChinh, TroKham } =
     res.body;
