@@ -100,6 +100,121 @@ app.post("/SuaTTBenhNhan", async (req, res) => {
     res.send(err);
   }
 });
+
+app.get("/XemThuoc", async (req, res) => {
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+    const result = request
+      .execute("PROC_XemThuoc")
+      .then(function (err, recordsets, returnValue, affected) {
+        console.dir(recordsets);
+        console.dir(err);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+    console.log(result);
+    res.send(result);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+app.post("/ThemThuoc", async (req, res) => {
+  let { mathuoc, tenthuoc, gia, donvi } = req.body;
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+    request.input("mathuoc", mathuoc);
+    request.input("tenthuoc", tenthuoc);
+    request.input("gia", gia);
+    request.input("donvi", donvi);
+    const result = request
+      .execute("PROC_ThemThuoc")
+      .then(function (err, recordsets, returnValue, affected) {
+        console.dir(recordsets);
+        console.dir(err);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+    console.log(result);
+    res.send(result);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+app.post("/SuaThuoc", async (req, res) => {
+  let { mathuoc, tenthuoc, gia, donvi } = req.body;
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+    request.input("mathuoc", mathuoc);
+    request.input("tenthuoc", tenthuoc);
+    request.input("gia", gia);
+    request.input("donvi", donvi);
+    const result = request
+      .execute("PROC_SuaThuoc")
+      .then(function (err, recordsets, returnValue, affected) {
+        console.dir(recordsets);
+        console.dir(err);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+    console.log(result);
+    res.send(result);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+app.post("/XoaThuoc", async (req, res) => {
+  let { mathuoc } = req.body;
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+    request.input("mathuoc", mathuoc);
+    const result = request
+      .execute("PROC_XoaThuoc")
+      .then(function (err, recordsets, returnValue, affected) {
+        console.dir(recordsets);
+        console.dir(err);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+    console.log(result);
+    res.send(result);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+app.get("/KHDTtrongNgay", async (req, res) => {
+  let { ngay } = req.body;
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+    request.input("ngay", sql.Date, ngay);
+    const result = request
+      .execute("PROC_KHDTtrongNgay")
+      .then(function (err, recordsets, returnValue, affected) {
+        console.dir(recordsets);
+        console.dir(err);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+    console.log(result);
+    res.send(result);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
 app.post("/ThemKeHoachDieuTriBenhNhan  ", async (req, res) => {
   let { MaKHDT, MoTa, NgayDieuTri, TrangThai, MaBN, KhamChinh, TroKham } =
     res.body;
