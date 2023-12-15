@@ -1,6 +1,8 @@
 const express = require("express");
 const sql = require("mssql");
 const app = express();
+var cors = require("cors");
+
 /*-------------------add details of sqlConfig-----------------*/
 
 const config = {
@@ -14,6 +16,7 @@ const config = {
   },
 };
 app.use(express.json({ limit: "50mb" }));
+app.use(cors());
 /******************************************************************/
 app.get("/", async (req, res) => {
   try {
@@ -215,22 +218,263 @@ app.get("/KHDTtrongNgay", async (req, res) => {
   }
 });
 
-app.post("/ThemKeHoachDieuTriBenhNhan  ", async (req, res) => {
-  let { MaKHDT, MoTa, NgayDieuTri, TrangThai, MaBN, KhamChinh, TroKham } =
-    res.body;
-
+app.post("/LichHenDenNgay", async (req, res) => {
+  let { start, end } = res.body;
   try {
     await sql.connect(config);
     const request = new sql.Request();
-    request.input("MaKHDT", MaKHDT);
-    request.input("MoTa", MoTa);
-    request.input("NgayDieuTri", NgayDieuTri);
-    request.input("TrangThai", TrangThai);
-    request.input("MaBN", MaBN);
+    request.input("start", start);
+    request.input("end", end);
+    const result = request
+      .execute("PROC_LichHenDenNgay")
+      .then(function (err, recordsets, returnValue, affected) {
+        console.dir(recordsets);
+        console.dir(err);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+    console.log(result);
+    res.send(result);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+app.get("/ALL_THE_EMPLOYEE", async (req, res) => {
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+
+    const result = request
+      .execute("PROC_ALL_THE_EMPLOYEE")
+      .then(function (err, recordsets, returnValue, affected) {
+        console.dir(recordsets);
+        console.dir(err);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+    console.log(result);
+    res.send(result);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+app.get("/GET_SCHEDURE", async (req, res) => {
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+
+    const result = request
+      .execute("PROC_GET_SCHEDURE")
+      .then(function (err, recordsets, returnValue, affected) {
+        console.dir(recordsets);
+        console.dir(err);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+    console.log(result);
+    res.send(result);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+app.post("/CREATE_SCHEDURE", async (req, res) => {
+  let {
+    EmailBN,
+    DiaChiBN,
+    HotenBN,
+    NgaySinhBN,
+    GioiTinhBN,
+    Ngay,
+    Gio,
+    KhamChinh,
+    TroKham,
+    MaPhong,
+    MaPK,
+  } = res.body;
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+    request.input("EmailBN", EmailBN);
+    request.input("DiaChiBN", DiaChiBN);
+    request.input("HotenBN", HotenBN);
+    request.input("NgaySinhBN", NgaySinhBN);
+    request.input("GioiTinhBN", GioiTinhBN);
+    request.input("Ngay", Ngay);
+    request.input("Gio", Gio);
     request.input("KhamChinh", KhamChinh);
     request.input("TroKham", TroKham);
+    request.input("MaPhong", MaPhong);
+    request.input("MaPK", MaPK);
+
     const result = request
-      .execute("PROC_ThemKeHoachDieuTriBenhNhan")
+      .execute("PROC_CREATE_SCHEDURE")
+      .then(function (err, recordsets, returnValue, affected) {
+        console.dir(recordsets);
+        console.dir(err);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+    console.log(result);
+    res.send(result);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+app.get("/ALL_THE_DOCTOR", async (req, res) => {
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+    const result = request
+      .execute("PROC_ALL_THE_DOCTOR")
+      .then(function (err, recordsets, returnValue, affected) {
+        console.dir(recordsets);
+        console.dir(err);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+    console.log(result);
+    res.send(result);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+app.post("/ADD_THE_DOCTOR", async (req, res) => {
+  let { MaND, TenND, NgaySinhND, GioiTinhND, MatKhau, PhongKham } = res.body;
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+    request.input("MaND", MaND);
+    request.input("TenND", TenND);
+    request.input("NgaySinhND", NgaySinhND);
+    request.input("GioiTinhND", GioiTinhND);
+    request.input("MatKhau", MatKhau);
+    request.input("PhongKham", PhongKham);
+
+    const result = request
+      .execute("PROC_ADD_THE_DOCTOR")
+      .then(function (err, recordsets, returnValue, affected) {
+        console.dir(recordsets);
+        console.dir(err);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+    console.log(result);
+    res.send(result);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+app.post("/UPDATE_THE_DOCTOR/:MaND", async (req, res) => {
+  let { TenND, NgaySinhND, GioiTinhND, MatKhau, PhongKham } = res.body;
+  let { MaND } = req.params;
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+    request.input("MaND", MaND);
+    request.input("TenND", TenND);
+    request.input("NgaySinhND", NgaySinhND);
+    request.input("GioiTinhND", GioiTinhND);
+    request.input("MatKhau", MatKhau);
+    request.input("PhongKham", PhongKham);
+
+    const result = request
+      .execute("PROC_UPDATE_THE_DOCTOR")
+      .then(function (err, recordsets, returnValue, affected) {
+        console.dir(recordsets);
+        console.dir(err);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+    console.log(result);
+    res.send(result);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+app.post("/ADD_THE_EMPLOYEE/:MaND", async (req, res) => {
+  let { TenND, NgaySinhND, GioiTinhND, MatKhau, PhongKham } = res.body;
+  let { MaND } = req.params;
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+    request.input("MaND", MaND);
+    request.input("TenND", TenND);
+    request.input("NgaySinhND", NgaySinhND);
+    request.input("GioiTinhND", GioiTinhND);
+    request.input("MatKhau", MatKhau);
+    request.input("PhongKham", PhongKham);
+
+    const result = request
+      .execute("PROC_ADD_THE_EMPLOYEE")
+      .then(function (err, recordsets, returnValue, affected) {
+        console.dir(recordsets);
+        console.dir(err);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+    console.log(result);
+    res.send(result);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+app.post("/UPDATE_THE_EMPLOYEE/:MaND", async (req, res) => {
+  let { TenND, NgaySinhND, GioiTinhND, MatKhau, PhongKham } = res.body;
+  let { MaND } = req.params;
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+    request.input("MaND", MaND);
+    request.input("TenND", TenND);
+    request.input("NgaySinhND", NgaySinhND);
+    request.input("GioiTinhND", GioiTinhND);
+    request.input("MatKhau", MatKhau);
+    request.input("PhongKham", PhongKham);
+
+    const result = request
+      .execute("PROC_UPDATE_THE_EMPLOYEE")
+      .then(function (err, recordsets, returnValue, affected) {
+        console.dir(recordsets);
+        console.dir(err);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+    console.log(result);
+    res.send(result);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+app.post("/ADD_WORK_SCHEDURE", async (req, res) => {
+  let { MaLichLamViec, GioBatDau, GioKetThuc, NhaSi, NgayLamViec } = res.body;
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+    request.input("MaLichLamViec", MaLichLamViec);
+    request.input("GioBatDau", GioBatDau);
+    request.input("GioKetThuc", GioKetThuc);
+    request.input("NhaSi", NhaSi);
+    request.input("NgayLamViec", NgayLamViec);
+    const result = request
+      .execute("ADD_WORK_SCHEDURE")
       .then(function (err, recordsets, returnValue, affected) {
         console.dir(recordsets);
         console.dir(err);
