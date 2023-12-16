@@ -40,17 +40,10 @@ app.post("/DangNhap", async (req, res) => {
     request.input("ten", ten);
     request.input("mk", mk);
     request.output("kq", kq);
-    const result = request
-      .execute("PROC_DangNhap")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_DangNhap");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     console.log(err);
   }
@@ -60,17 +53,10 @@ app.get("/XemDsBenhNhan", async (req, res) => {
   try {
     await sql.connect(config);
     const request = new sql.Request();
-    const result = request
-      .execute("PROC_XemDSBenhNhan")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_XemDSBenhNhan");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -88,17 +74,10 @@ app.post("/SuaTTBenhNhan", async (req, res) => {
     request.input("email", email);
     request.input("diachi", diachi);
     request.input("ngsinh", ngsinh);
-    const result = request
-      .execute("PROC_SuaTTBenhNhan")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_SuaTTBenhNhan");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -108,17 +87,10 @@ app.get("/XemThuoc", async (req, res) => {
   try {
     await sql.connect(config);
     const request = new sql.Request();
-    const result = request
-      .execute("PROC_XemThuoc")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_XemThuoc");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -133,17 +105,10 @@ app.post("/ThemThuoc", async (req, res) => {
     request.input("tenthuoc", tenthuoc);
     request.input("gia", gia);
     request.input("donvi", donvi);
-    const result = request
-      .execute("PROC_ThemThuoc")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_ThemThuoc");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -158,17 +123,10 @@ app.post("/SuaThuoc", async (req, res) => {
     request.input("tenthuoc", tenthuoc);
     request.input("gia", gia);
     request.input("donvi", donvi);
-    const result = request
-      .execute("PROC_SuaThuoc")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_SuaThuoc");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -180,17 +138,10 @@ app.post("/XoaThuoc", async (req, res) => {
     await sql.connect(config);
     const request = new sql.Request();
     request.input("mathuoc", mathuoc);
-    const result = request
-      .execute("PROC_XoaThuoc")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_XoaThuoc");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -202,17 +153,10 @@ app.get("/KHDTtrongNgay", async (req, res) => {
     await sql.connect(config);
     const request = new sql.Request();
     request.input("ngay", sql.Date, ngay);
-    const result = request
-      .execute("PROC_KHDTtrongNgay")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_KHDTtrongNgay");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -225,17 +169,10 @@ app.post("/LichHenDenNgay", async (req, res) => {
     const request = new sql.Request();
     request.input("start", start);
     request.input("end", end);
-    const result = request
-      .execute("PROC_LichHenDenNgay")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_LichHenDenNgay");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -246,17 +183,10 @@ app.get("/ALL_THE_EMPLOYEE", async (req, res) => {
     await sql.connect(config);
     const request = new sql.Request();
 
-    const result = request
-      .execute("PROC_ALL_THE_EMPLOYEE")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_ALL_THE_EMPLOYEE");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -267,17 +197,10 @@ app.get("/GET_SCHEDURE", async (req, res) => {
     await sql.connect(config);
     const request = new sql.Request();
 
-    const result = request
-      .execute("PROC_GET_SCHEDURE")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_GET_SCHEDURE");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -312,17 +235,10 @@ app.post("/CREATE_SCHEDURE", async (req, res) => {
     request.input("MaPhong", MaPhong);
     request.input("MaPK", MaPK);
 
-    const result = request
-      .execute("PROC_CREATE_SCHEDURE")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_CREATE_SCHEDURE");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -332,17 +248,10 @@ app.get("/ALL_THE_DOCTOR", async (req, res) => {
   try {
     await sql.connect(config);
     const request = new sql.Request();
-    const result = request
-      .execute("PROC_ALL_THE_DOCTOR")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_ALL_THE_DOCTOR");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -360,17 +269,10 @@ app.post("/ADD_THE_DOCTOR", async (req, res) => {
     request.input("MatKhau", MatKhau);
     request.input("PhongKham", PhongKham);
 
-    const result = request
-      .execute("PROC_ADD_THE_DOCTOR")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_ADD_THE_DOCTOR");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -389,17 +291,10 @@ app.post("/UPDATE_THE_DOCTOR/:MaND", async (req, res) => {
     request.input("MatKhau", MatKhau);
     request.input("PhongKham", PhongKham);
 
-    const result = request
-      .execute("PROC_UPDATE_THE_DOCTOR")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_UPDATE_THE_DOCTOR");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -418,17 +313,10 @@ app.post("/ADD_THE_EMPLOYEE/:MaND", async (req, res) => {
     request.input("MatKhau", MatKhau);
     request.input("PhongKham", PhongKham);
 
-    const result = request
-      .execute("PROC_ADD_THE_EMPLOYEE")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_ADD_THE_EMPLOYEE");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -447,17 +335,10 @@ app.post("/UPDATE_THE_EMPLOYEE/:MaND", async (req, res) => {
     request.input("MatKhau", MatKhau);
     request.input("PhongKham", PhongKham);
 
-    const result = request
-      .execute("PROC_UPDATE_THE_EMPLOYEE")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_UPDATE_THE_EMPLOYEE");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -473,17 +354,10 @@ app.post("/ADD_WORK_SCHEDURE", async (req, res) => {
     request.input("GioKetThuc", GioKetThuc);
     request.input("NhaSi", NhaSi);
     request.input("NgayLamViec", NgayLamViec);
-    const result = request
-      .execute("ADD_WORK_SCHEDURE")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("ADD_WORK_SCHEDURE");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -496,17 +370,10 @@ app.post("/ThemChongChiDinh/:MaBN/:MaThuoc ", async (req, res) => {
     const request = new sql.Request();
     request.input("MaBN", MaBN);
     request.input("MaThuoc", MaThuoc);
-    const result = request
-      .execute("PROC_ThemChongChiDinh")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_ThemChongChiDinh");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -520,17 +387,10 @@ app.post("/SuaTinhTrangSucKhoeCuaBenhNhan/:MaBN ", async (req, res) => {
     const request = new sql.Request();
     request.input("MaBN", MaBN);
     request.input("TongQuan", TongQuan);
-    const result = request
-      .execute("PROC_SuaTinhTrangSucKhoeCuaBenhNhan")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_SuaTinhTrangSucKhoeCuaBenhNhan");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -545,16 +405,10 @@ app.post("/SuaChongChiDinh/:MaBN ", async (req, res) => {
     request.input("MaBN", MaBN);
     request.input("MaThuocCu", MaThuocCu);
     request.input("MaThuocMoi", MaThuocMoi);
-    const result = request
-      .execute("PROC_SuaChongChiDinh")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
+    const result = await request.execute("PROC_SuaChongChiDinh");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
     res.send(result);
   } catch (err) {
     res.send(err);
@@ -568,17 +422,10 @@ app.post("/XoaChongChiDinh/:MaBN/:MaThuoc ", async (req, res) => {
     const request = new sql.Request();
     request.input("MaBN", MaBN);
     request.input("MaThuoc", MaThuoc);
-    const result = request
-      .execute("PROC_XoaChongChiDinh")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_XoaChongChiDinh");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -590,17 +437,10 @@ app.post("/XemKeHoachDieuTriBenhNhan/:MaBN ", async (req, res) => {
     await sql.connect(config);
     const request = new sql.Request();
     request.input("MaBN", MaBN);
-    const result = request
-      .execute("PROC_XemKeHoachDieuTriBenhNhan")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_XemKeHoachDieuTriBenhNhan");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -618,17 +458,10 @@ app.post("/ThemKeHoachDieuTriBenhNhan  ", async (req, res) => {
     request.input("MaBN", MaBN);
     request.input("KhamChinh", KhamChinh);
     request.input("TroKham", TroKham);
-    const result = request
-      .execute("PROC_ThemKeHoachDieuTriBenhNhan")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_ThemKeHoachDieuTriBenhNhan");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -648,17 +481,10 @@ app.post("/CapNhatKeHoachDieuTriBenhNhan  ", async (req, res) => {
     request.input("MaBN", MaBN);
     request.input("KhamChinh", KhamChinh);
     request.input("TroKham", TroKham);
-    const result = request
-      .execute("PROC_CapNhatKeHoachDieuTriBenhNhan")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_CapNhatKeHoachDieuTriBenhNhan");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -673,17 +499,10 @@ app.post("/ThemChiTietKeHoachDieuTri ", async (req, res) => {
     request.input("MaDT", MaDT);
     request.input("MaRang", MaRang);
     request.input("MaBeMat", MaBeMat);
-    const result = request
-      .execute("PROC_ThemChiTietKeHoachDieuTri ")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_ThemChiTietKeHoachDieuTri ");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -698,17 +517,10 @@ app.post("/XoaChiTietKeHoachDieuTri", async (req, res) => {
     request.input("MaDT", MaDT);
     request.input("MaRang", MaRang);
     request.input("MaBeMat", MaBeMat);
-    const result = request
-      .execute("PROC_XoaChiTietKeHoachDieuTri")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_XoaChiTietKeHoachDieuTri");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -722,17 +534,10 @@ app.post("/ThemDonThuoc", async (req, res) => {
     request.input("NgayLap", NgayLap);
     request.input("MaBN", MaBN);
     request.input("NguoiLap", NguoiLap);
-    const result = request
-      .execute("PROC_ThemDonThuoc")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_ThemDonThuoc");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -744,17 +549,10 @@ app.post("/XoaDonThuoc/:MaDonThuoc", async (req, res) => {
     await sql.connect(config);
     const request = new sql.Request();
     request.input("MaDonThuoc", MaDonThuoc);
-    const result = request
-      .execute("PROC_XoaDonThuoc")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_XoaDonThuoc");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -769,17 +567,9 @@ app.post("/SuaDonThuoc", async (req, res) => {
     request.input("NgayLap", NgayLap);
     request.input("MaBN", MaBN);
     request.input("NguoiLap", NguoiLap);
-    const result = request
-      .execute("PROC_SuaDonThuoc")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_SuaDonThuoc");
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -793,17 +583,9 @@ app.post("/ThemChiTietDonThuoc", async (req, res) => {
     request.input("MaDonThuoc", MaDonThuoc);
     request.input("MaThuoc", MaThuoc);
     request.input("LieuLuong", LieuLuong);
-    const result = request
-      .execute("PROC_ThemChiTietDonThuoc")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_ThemChiTietDonThuoc");
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -816,17 +598,10 @@ app.post("/XoaChiTietDonThuoc", async (req, res) => {
     const request = new sql.Request();
     request.input("MaDonThuoc", MaDonThuoc);
     request.input("MaThuoc", MaThuoc);
-    const result = request
-      .execute("PROC_XoaChiTietDonThuoc")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_XoaChiTietDonThuoc");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -840,17 +615,9 @@ app.post("/SuaChiTietDonThuoc", async (req, res) => {
     request.input("MaDonThuoc", MaDonThuoc);
     request.input("MaThuoc", MaThuoc);
     request.input("LieuLuong", LieuLuong);
-    const result = request
-      .execute("PROC_SuaChiTietDonThuoc")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_SuaChiTietDonThuoc");
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -862,17 +629,12 @@ app.get("/XemDanhSachThanhToanCuaBenhNhan/:MaBenhNhan", async (req, res) => {
     await sql.connect(config);
     const request = new sql.Request();
     request.input("MaBenhNhan", MaBenhNhan);
-    const result = request
-      .execute("PROC_XemDanhSachThanhToanCuaBenhNhan")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute(
+      "PROC_XemDanhSachThanhToanCuaBenhNhan"
+    );
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -884,17 +646,10 @@ app.get("/LocCuocHenTheoTungNgay", async (req, res) => {
     await sql.connect(config);
     const request = new sql.Request();
     request.input("Ngay", ngay);
-    const result = request
-      .execute("PROC_LocCuocHenTheoTungNgay")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_LocCuocHenTheoTungNgay");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -907,17 +662,9 @@ app.get("/LocCuocHenTheoPhong/:mapk/:maPhong", async (req, res) => {
     const request = new sql.Request();
     request.input("MaPk", mapk);
     request.input("MaPhong", maPhong);
-    const result = request
-      .execute("PROC_LocCuocHenTheoNhaSi")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_LocCuocHenTheoNhaSi");
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
@@ -929,37 +676,24 @@ app.get("/LocCuocHenTheoNhaSi/:id", async (req, res) => {
     await sql.connect(config);
     const request = new sql.Request();
     request.input("MaNhaSi", mans);
-    const result = request
-      .execute("PROC_LocCuocHenTheoNhaSi")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+    const result = await request.execute("PROC_LocCuocHenTheoNhaSi");
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
 });
 
 app.get("/LocCuocHenTrongNgay", async (req, res) => {
+  let data;
   try {
     await sql.connect(config);
     const request = new sql.Request();
-    const result = request
-      .execute("PROC_LocCuocHenTrongNgay")
-      .then(function (err, recordsets, returnValue, affected) {
-        console.dir(recordsets);
-        console.dir(err);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-    console.log(result);
-    res.send(result);
+
+    const result = await request.execute("PROC_LocCuocHenTrongNgay");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
   }
