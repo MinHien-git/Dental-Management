@@ -40,9 +40,11 @@ app.post("/DangNhap", async (req, res) => {
     const request = new sql.Request();
     let kq;
     let id;
+    let name;
     request.input("ma", ma);
     request.input("mk", pw);
     request.output("kq", kq);
+    request.output("name", name);
     request.output("id", id);
     const result = await request.execute("PROC_DangNhap");
 
@@ -51,6 +53,7 @@ app.post("/DangNhap", async (req, res) => {
       JSON.stringify({
         type: result.output.kq,
         id: result.output.id,
+        name: result.output.name,
       })
     );
   } catch (err) {
