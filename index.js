@@ -110,6 +110,7 @@ app.get("/XemThuoc", async (req, res) => {
 
 app.post("/ThemThuoc", async (req, res) => {
   let { mathuoc, tenthuoc, gia, donvi } = req.body;
+  console.log(req.body);
   try {
     await sql.connect(config);
     const request = new sql.Request();
@@ -144,15 +145,16 @@ app.post("/SuaThuoc", async (req, res) => {
   }
 });
 
-app.post("/XoaThuoc", async (req, res) => {
-  let { mathuoc } = req.body;
+app.post("/XoaThuoc/:mathuoc", async (req, res) => {
+  let { mathuoc } = req.params;
+
   try {
     await sql.connect(config);
     const request = new sql.Request();
     request.input("mathuoc", mathuoc);
     const result = await request.execute("PROC_XoaThuoc");
 
-    console.log(JSON.stringify(result.recordset));
+    console.log(result);
     res.send(JSON.stringify(result.recordset));
   } catch (err) {
     res.send(err);
