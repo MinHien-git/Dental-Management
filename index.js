@@ -1,6 +1,8 @@
 const express = require("express");
 const sql = require("mssql");
 const app = express();
+const moment = require("moment");
+
 var cors = require("cors");
 
 /*-------------------add details of sqlConfig-----------------*/
@@ -31,19 +33,26 @@ app.get("/", async (req, res) => {
 });
 
 app.post("/DangNhap", async (req, res) => {
-  let { ten, mk } = req.body;
-
+  let { ma, pw } = req.body;
+  console.log(req.body);
   try {
     await sql.connect(config);
     const request = new sql.Request();
     let kq;
-    request.input("ten", ten);
-    request.input("mk", mk);
+    let id;
+    request.input("ma", ma);
+    request.input("mk", pw);
     request.output("kq", kq);
+    request.output("id", id);
     const result = await request.execute("PROC_DangNhap");
 
-    console.log(JSON.stringify(result.recordset));
-    res.send(JSON.stringify(result.recordset));
+    console.log(result);
+    res.send(
+      JSON.stringify({
+        type: result.output.kq,
+        id: result.output.id,
+      })
+    );
   } catch (err) {
     console.log(err);
   }
@@ -162,13 +171,28 @@ app.get("/KHDTtrongNgay", async (req, res) => {
   }
 });
 
-app.post("/LichHenDenNgay", async (req, res) => {
-  let { start, end } = res.body;
+app.get("/LichHenDenNgay", async (req, res) => {
+  let { start, end, name } = req.query;
+  console.log(
+    moment(start).format("YYYY-MM-DD"),
+    moment(end).format("YYYY-MM-DD"),
+    name
+  );
+
   try {
     await sql.connect(config);
     const request = new sql.Request();
-    request.input("start", start);
-    request.input("end", end);
+    request.input(
+      "start",
+      sql.DateTime,
+      start === "null" ? null : moment(start).format("YYYY-MM-DD")
+    );
+    request.input("TenNS", name.trim() ? name.trim() : null);
+    request.input(
+      "end",
+      sql.DateTime,
+      end === "null" ? null : moment(end).format("YYYY-MM-DD")
+    );
     const result = await request.execute("PROC_LichHenDenNgay");
 
     console.log(JSON.stringify(result.recordset));
