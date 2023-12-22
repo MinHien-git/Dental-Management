@@ -19,7 +19,9 @@ const config = {
 };
 app.use(express.json({ limit: "50mb" }));
 app.use(cors());
+
 /******************************************************************/
+
 app.get("/", async (req, res) => {
     try {
         await sql.connect(config);
@@ -74,18 +76,40 @@ app.get("/XemDsBenhNhan", async (req, res) => {
     }
 });
 
-app.post("/SuaTTBenhNhan", async (req, res) => {
-    let { mbn, ten, phai, sdt, email, diachi, ngsinh } = req.body;
+app.post("/ThemTTBenhNhan", async (req, res) => {
+    let { MaBN, HotenBN, NgaySinhBN, GioiTinhBN, SDTBN, EmailBN, DiachiBN } = req.body;
     try {
         await sql.connect(config);
         const request = new sql.Request();
-        request.input("mbn", mbn);
-        request.input("hoten", ten);
-        request.input("phai", phai);
-        request.input("sdt", sdt);
-        request.input("email", email);
-        request.input("diachi", diachi);
-        request.input("ngsinh", ngsinh);
+        request.input("mbn", MaBN);
+        request.input("hoten", HotenBN);
+        request.input("phai", GioiTinhBN);
+        request.input("sdt", SDTBN);
+        request.input("email", EmailBN);
+        request.input("diachi", DiachiBN);
+        request.input("ngsinh", NgaySinhBN);
+        const result = await request.execute("PROC_ThemTTBenhNhan");
+
+        console.log(JSON.stringify(result.recordset));
+        res.send(JSON.stringify(result.recordset));
+    } catch (err) {
+        res.send(err);
+    }
+});
+
+app.post("/SuaTTBenhNhan/:MaBN", async (req, res) => {
+    let { HotenBN, NgaySinhBN, GioiTinhBN, SDTBN, EmailBN, DiachiBN } = req.body;
+    let { MaBN } = req.params;
+    try {
+        await sql.connect(config);
+        const request = new sql.Request();
+        request.input("mbn", MaBN);
+        request.input("hoten", HotenBN);
+        request.input("phai", GioiTinhBN);
+        request.input("sdt", SDTBN);
+        request.input("email", EmailBN);
+        request.input("diachi", DiachiBN);
+        request.input("ngsinh", NgaySinhBN);
         const result = await request.execute("PROC_SuaTTBenhNhan");
 
         console.log(JSON.stringify(result.recordset));
@@ -224,7 +248,7 @@ app.get("/GET_SCHEDURE", async (req, res) => {
 });
 
 app.post("/CREATE_SCHEDURE", async (req, res) => {
-    let { EmailBN, DiaChiBN, HotenBN, NgaySinhBN, GioiTinhBN, Ngay, Gio, KhamChinh, TroKham, MaPhong, MaPK } = res.body;
+    let { EmailBN, DiaChiBN, HotenBN, NgaySinhBN, GioiTinhBN, Ngay, Gio, KhamChinh, TroKham, MaPhong, MaPK } = req.body;
     try {
         await sql.connect(config);
         const request = new sql.Request();
@@ -263,7 +287,7 @@ app.get("/ALL_THE_DOCTOR", async (req, res) => {
 });
 
 app.post("/ADD_THE_DOCTOR", async (req, res) => {
-    let { MaND, TenND, NgaySinhND, GioiTinhND, MatKhau, PhongKham } = res.body;
+    let { MaND, TenND, NgaySinhND, GioiTinhND, MatKhau, PhongKham } = req.body;
     try {
         await sql.connect(config);
         const request = new sql.Request();
@@ -284,7 +308,7 @@ app.post("/ADD_THE_DOCTOR", async (req, res) => {
 });
 
 app.post("/UPDATE_THE_DOCTOR/:MaND", async (req, res) => {
-    let { TenND, NgaySinhND, GioiTinhND, MatKhau, PhongKham } = res.body;
+    let { TenND, NgaySinhND, GioiTinhND, MatKhau, PhongKham } = req.body;
     let { MaND } = req.params;
     try {
         await sql.connect(config);
@@ -303,11 +327,11 @@ app.post("/UPDATE_THE_DOCTOR/:MaND", async (req, res) => {
     } catch (err) {
         res.send(err);
     }
+    console.log(req.body);
 });
 
-app.post("/ADD_THE_EMPLOYEE/:MaND", async (req, res) => {
-    let { TenND, NgaySinhND, GioiTinhND, MatKhau, PhongKham } = res.body;
-    let { MaND } = req.params;
+app.post("/ADD_THE_EMPLOYEE", async (req, res) => {
+    let { MaND, TenND, NgaySinhND, GioiTinhND, MatKhau, PhongKham } = req.body;
     try {
         await sql.connect(config);
         const request = new sql.Request();
@@ -328,8 +352,9 @@ app.post("/ADD_THE_EMPLOYEE/:MaND", async (req, res) => {
 });
 
 app.post("/UPDATE_THE_EMPLOYEE/:MaND", async (req, res) => {
-    let { TenND, NgaySinhND, GioiTinhND, MatKhau, PhongKham } = res.body;
+    let { TenND, NgaySinhND, GioiTinhND, MatKhau, PhongKham } = req.body;
     let { MaND } = req.params;
+
     try {
         await sql.connect(config);
         const request = new sql.Request();
@@ -347,10 +372,11 @@ app.post("/UPDATE_THE_EMPLOYEE/:MaND", async (req, res) => {
     } catch (err) {
         res.send(err);
     }
+    console.log(req.body);
 });
 
 app.post("/ADD_WORK_SCHEDURE", async (req, res) => {
-    let { MaLichLamViec, GioBatDau, GioKetThuc, NhaSi, NgayLamViec } = res.body;
+    let { MaLichLamViec, GioBatDau, GioKetThuc, NhaSi, NgayLamViec } = req.body;
     try {
         await sql.connect(config);
         const request = new sql.Request();
@@ -369,7 +395,7 @@ app.post("/ADD_WORK_SCHEDURE", async (req, res) => {
 });
 
 app.post("/ThemChongChiDinh/:MaBN/:MaThuoc ", async (req, res) => {
-    let { MaBN, MaThuoc } = res.params;
+    let { MaBN, MaThuoc } = req.params;
     try {
         await sql.connect(config);
         const request = new sql.Request();
@@ -385,8 +411,8 @@ app.post("/ThemChongChiDinh/:MaBN/:MaThuoc ", async (req, res) => {
 });
 
 app.post("/SuaTinhTrangSucKhoeCuaBenhNhan/:MaBN ", async (req, res) => {
-    let { MaBN } = res.params;
-    let { TongQuan } = res.body;
+    let { MaBN } = req.params;
+    let { TongQuan } = req.body;
     try {
         await sql.connect(config);
         const request = new sql.Request();
@@ -402,8 +428,8 @@ app.post("/SuaTinhTrangSucKhoeCuaBenhNhan/:MaBN ", async (req, res) => {
 });
 
 app.post("/SuaChongChiDinh/:MaBN ", async (req, res) => {
-    let { MaBN } = res.params;
-    let { MaThuocCu, MaThuocMoi } = res.body;
+    let { MaBN } = req.params;
+    let { MaThuocCu, MaThuocMoi } = req.body;
     try {
         await sql.connect(config);
         const request = new sql.Request();
@@ -421,7 +447,7 @@ app.post("/SuaChongChiDinh/:MaBN ", async (req, res) => {
 });
 
 app.post("/XoaChongChiDinh/:MaBN/:MaThuoc ", async (req, res) => {
-    let { MaBN, MaThuoc } = res.params;
+    let { MaBN, MaThuoc } = req.params;
     try {
         await sql.connect(config);
         const request = new sql.Request();
@@ -436,12 +462,12 @@ app.post("/XoaChongChiDinh/:MaBN/:MaThuoc ", async (req, res) => {
     }
 });
 
-app.post("/XemKeHoachDieuTriBenhNhan/:MaBN ", async (req, res) => {
-    let { MaBN } = res.params;
+app.get("/XemKeHoachDieuTriBenhNhan/:MaBN ", async (req, res) => {
+    let { MaBN } = req.params;
     try {
         await sql.connect(config);
         const request = new sql.Request();
-        request.input("MaBN", MaBN);
+        request.input("MaBN", sql.Char, MaBN);
         const result = await request.execute("PROC_XemKeHoachDieuTriBenhNhan");
 
         console.log(JSON.stringify(result.recordset));
@@ -449,10 +475,11 @@ app.post("/XemKeHoachDieuTriBenhNhan/:MaBN ", async (req, res) => {
     } catch (err) {
         res.send(err);
     }
+    console.log(MaBN);
 });
 
 app.post("/ThemKeHoachDieuTriBenhNhan  ", async (req, res) => {
-    let { MoTa, NgayDieuTri, TrangThai, MaBN, KhamChinh, TroKham } = res.body;
+    let { MoTa, NgayDieuTri, TrangThai, MaBN, KhamChinh, TroKham } = req.body;
 
     try {
         await sql.connect(config);
@@ -473,7 +500,7 @@ app.post("/ThemKeHoachDieuTriBenhNhan  ", async (req, res) => {
 });
 
 app.post("/CapNhatKeHoachDieuTriBenhNhan  ", async (req, res) => {
-    let { MaKHDT, MoTa, NgayDieuTri, TrangThai, MaBN, KhamChinh, TroKham } = res.body;
+    let { MaKHDT, MoTa, NgayDieuTri, TrangThai, MaBN, KhamChinh, TroKham } = req.body;
 
     try {
         await sql.connect(config);
@@ -495,7 +522,7 @@ app.post("/CapNhatKeHoachDieuTriBenhNhan  ", async (req, res) => {
 });
 
 app.post("/ThemChiTietKeHoachDieuTri ", async (req, res) => {
-    let { MaKHDT, MaDT, MaRang, MaBeMat } = res.body;
+    let { MaKHDT, MaDT, MaRang, MaBeMat } = req.body;
     try {
         await sql.connect(config);
         const request = new sql.Request();
@@ -513,7 +540,7 @@ app.post("/ThemChiTietKeHoachDieuTri ", async (req, res) => {
 });
 
 app.post("/XoaChiTietKeHoachDieuTri", async (req, res) => {
-    let { MaKHDT, MaDT, MaRang, MaBeMat } = res.body;
+    let { MaKHDT, MaDT, MaRang, MaBeMat } = req.body;
     try {
         await sql.connect(config);
         const request = new sql.Request();
@@ -531,7 +558,7 @@ app.post("/XoaChiTietKeHoachDieuTri", async (req, res) => {
 });
 
 app.post("/ThemDonThuoc", async (req, res) => {
-    let { NgayLap, MaBN, NguoiLap } = res.body;
+    let { NgayLap, MaBN, NguoiLap } = req.body;
     try {
         await sql.connect(config);
         const request = new sql.Request();
@@ -548,7 +575,7 @@ app.post("/ThemDonThuoc", async (req, res) => {
 });
 
 app.post("/XoaDonThuoc/:MaDonThuoc", async (req, res) => {
-    let { MaDonThuoc } = res.params;
+    let { MaDonThuoc } = req.params;
     try {
         await sql.connect(config);
         const request = new sql.Request();
@@ -563,7 +590,7 @@ app.post("/XoaDonThuoc/:MaDonThuoc", async (req, res) => {
 });
 
 app.post("/SuaDonThuoc", async (req, res) => {
-    let { MaDonThuoc, NgayLap, MaBN, NguoiLap } = res.body;
+    let { MaDonThuoc, NgayLap, MaBN, NguoiLap } = req.body;
     try {
         await sql.connect(config);
         const request = new sql.Request();
@@ -580,7 +607,7 @@ app.post("/SuaDonThuoc", async (req, res) => {
 });
 
 app.post("/ThemChiTietDonThuoc", async (req, res) => {
-    let { MaDonThuoc, MaThuoc, LieuLuong } = res.body;
+    let { MaDonThuoc, MaThuoc, LieuLuong } = req.body;
     try {
         await sql.connect(config);
         const request = new sql.Request();
@@ -596,7 +623,7 @@ app.post("/ThemChiTietDonThuoc", async (req, res) => {
 });
 
 app.post("/XoaChiTietDonThuoc", async (req, res) => {
-    let { MaDonThuoc, MaThuoc } = res.body;
+    let { MaDonThuoc, MaThuoc } = req.body;
     try {
         await sql.connect(config);
         const request = new sql.Request();
@@ -612,7 +639,7 @@ app.post("/XoaChiTietDonThuoc", async (req, res) => {
 });
 
 app.post("/SuaChiTietDonThuoc", async (req, res) => {
-    let { MaDonThuoc, MaThuoc, LieuLuong } = res.body;
+    let { MaDonThuoc, MaThuoc, LieuLuong } = req.body;
     try {
         await sql.connect(config);
         const request = new sql.Request();
@@ -628,7 +655,7 @@ app.post("/SuaChiTietDonThuoc", async (req, res) => {
 });
 
 app.get("/XemDanhSachThanhToanCuaBenhNhan/:MaBenhNhan", async (req, res) => {
-    let { MaBenhNhan } = res.params;
+    let { MaBenhNhan } = req.params;
     try {
         await sql.connect(config);
         const request = new sql.Request();
