@@ -420,6 +420,25 @@ app.post("/ADD_WORK_SCHEDURE", async (req, res) => {
   }
 });
 
+app.get("/DSChongChiDinh", async (req, res) => {
+  let { MaBN } = req.query;
+  if (!MaBN) {
+    MaBN = null;
+  }
+  try {
+    await sql.connect(config);
+    const request = new sql.Request();
+    console.log(MaBN);
+    request.input("MaBN", MaBN);
+    const result = await request.execute("PROC_DSChongChiDinh");
+
+    console.log(JSON.stringify(result.recordset));
+    res.send(JSON.stringify(result.recordset));
+  } catch (err) {
+    res.send(err);
+  }
+});
+
 app.post("/ThemChongChiDinh/:MaBN/:MaThuoc", async (req, res) => {
   let { MaBN, MaThuoc } = req.params;
   try {
@@ -488,9 +507,11 @@ app.post("/XoaChongChiDinh/:MaBN/:MaThuoc", async (req, res) => {
   }
 });
 
-app.get("/XemKeHoachDieuTriBenhNhan/:MaBN", async (req, res) => {
-  let { MaBN } = req.params;
-
+app.get("/XemKeHoachDieuTriBenhNhan", async (req, res) => {
+  let { MaBN } = req.query;
+  if (!MaBN) {
+    MaBN = null;
+  }
   try {
     await sql.connect(config);
     const request = new sql.Request();
@@ -698,8 +719,13 @@ app.post("/SuaChiTietDonThuoc", async (req, res) => {
   }
 });
 
-app.get("/XemDanhSachThanhToanCuaBenhNhan/:MaBenhNhan", async (req, res) => {
-  let { MaBenhNhan } = req.params;
+app.get("/XemDanhSachThanhToanCuaBenhNhan", async (req, res) => {
+  let { MaBenhNhan } = req.query;
+
+  if (!MaBenhNhan) {
+    MaBenhNhan = null;
+  }
+  console.log(MaBenhNhan);
   try {
     await sql.connect(config);
     const request = new sql.Request();
