@@ -133,6 +133,19 @@ app.get("/XemThuoc", async (req, res) => {
     }
 });
 
+app.get("/XemLichLamViec", async (req, res) => {
+    try {
+        await sql.connect(config);
+        const request = new sql.Request();
+        const result = await request.execute("GET_WORK_SCHEDURE");
+
+        console.log(JSON.stringify(result.recordset));
+        res.send(JSON.stringify(result.recordset));
+    } catch (err) {
+        res.send(err);
+    }
+});
+
 app.post("/ThemThuoc", async (req, res) => {
     let { mathuoc, tenthuoc, gia, donvi } = req.body;
     console.log(req.body);
@@ -186,6 +199,54 @@ app.post("/XoaThuoc/:mathuoc", async (req, res) => {
     }
 });
 
+app.post("/XoaBenhNhan/:MaBN", async (req, res) => {
+    let { MaBN } = req.params;
+
+    try {
+        await sql.connect(config);
+        const request = new sql.Request();
+        request.input("MaBN", MaBN);
+        const result = await request.execute("PROC_XoaBenhNhan");
+
+        console.log(result);
+        res.send(JSON.stringify(result.recordset));
+    } catch (err) {
+        res.send(err);
+    }
+});
+
+app.post("/XoaBacSi/:MaND", async (req, res) => {
+    let { MaND } = req.params;
+
+    try {
+        await sql.connect(config);
+        const request = new sql.Request();
+        request.input("MaND", MaND);
+        const result = await request.execute("PROC_XoaBacSi");
+
+        console.log(result);
+        res.send(JSON.stringify(result.recordset));
+    } catch (err) {
+        res.send(err);
+    }
+});
+
+app.post("/XoaNhanVien/:MaND", async (req, res) => {
+    let { MaND } = req.params;
+
+    try {
+        await sql.connect(config);
+        const request = new sql.Request();
+        request.input("MaND", MaND);
+        const result = await request.execute("PROC_XoaNhanVien");
+
+        console.log(result);
+        res.send(JSON.stringify(result.recordset));
+    } catch (err) {
+        res.send(err);
+    }
+});
+
 app.get("/KHDTtrongNgay", async (req, res) => {
     let { ngay } = req.body;
     try {
@@ -212,6 +273,23 @@ app.get("/LichHenDenNgay", async (req, res) => {
         request.input("TenNS", name.trim() ? name.trim() : null);
         request.input("end", sql.DateTime, end === "null" ? null : moment(end).format("YYYY-MM-DD"));
         const result = await request.execute("PROC_LichHenDenNgay");
+
+        console.log(JSON.stringify(result.recordset));
+        res.send(JSON.stringify(result.recordset));
+    } catch (err) {
+        res.send(err);
+    }
+});
+
+app.get("/LocCuocHenTheoNhaSi", async (req, res) => {
+    let { name } = req.query;
+
+    try {
+        await sql.connect(config);
+        const request = new sql.Request();
+        request.input("MaNhaSi", name);
+
+        const result = await request.execute("PROC_LocCuocHenTheoNhaSi");
 
         console.log(JSON.stringify(result.recordset));
         res.send(JSON.stringify(result.recordset));
@@ -441,7 +519,6 @@ app.post("/SuaChongChiDinh/:MaBN", async (req, res) => {
 
         console.log(JSON.stringify(result.recordset));
         res.send(JSON.stringify(result.recordset));
-        res.send(result);
     } catch (err) {
         res.send(err);
     }
@@ -678,20 +755,6 @@ app.get("/LocCuocHenTheoPhong/:mapk/:maPhong", async (req, res) => {
         const request = new sql.Request();
         request.input("MaPk", mapk);
         request.input("MaPhong", maPhong);
-        const result = await request.execute("PROC_LocCuocHenTheoNhaSi");
-        console.log(JSON.stringify(result.recordset));
-        res.send(JSON.stringify(result.recordset));
-    } catch (err) {
-        res.send(err);
-    }
-});
-
-app.get("/LocCuocHenTheoNhaSi/:id", async (req, res) => {
-    let { mans } = req.params;
-    try {
-        await sql.connect(config);
-        const request = new sql.Request();
-        request.input("MaNhaSi", mans);
         const result = await request.execute("PROC_LocCuocHenTheoNhaSi");
         console.log(JSON.stringify(result.recordset));
         res.send(JSON.stringify(result.recordset));
