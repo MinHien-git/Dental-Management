@@ -447,6 +447,20 @@ app.post("/SuaChongChiDinh/:MaBN", async (req, res) => {
     }
 });
 
+app.get("/XemChongChiDinh/:MaBN", async (req, res) => {
+    let { MaBN } = req.params;
+    try {
+        await sql.connect(config);
+        const request = new sql.Request();
+        request.input("MaBN", MaBN);
+        const result = await request.execute("PROC_DSChongChiDinh");
+        console.log(JSON.stringify(result.recordset));
+        res.send(JSON.stringify(result.recordset));
+    } catch (err) {
+        res.send(err);
+    }
+});
+
 app.post("/XoaChongChiDinh/:MaBN/:MaThuoc", async (req, res) => {
     let { MaBN, MaThuoc } = req.params;
     try {
